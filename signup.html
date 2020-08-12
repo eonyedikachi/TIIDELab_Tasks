@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TIIDELAB Signup Form</title>
+
+    <style>
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 5px 20px;
+            border-radius: 10px;
+        }
+
+        .submit {
+            background-color: slateblue;
+            width: 85%;
+            color: snow;
+            font-size: 24px;
+        }
+
+        input:focus {
+            background-color: salmon;
+            color: seashell;
+            outline: none;
+        }
+
+        h3 {
+            color: slateblue;
+            margin: 15px;
+            font-size: 32px;
+        }
+
+        .instruction,
+        .form-container {
+            float: left;
+            width: 50%;
+        }
+
+        @media screen and (max-width:800px) {
+
+            .form-container,
+            .instruction {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+
+<body style="background-color: mediumpurple;">
+
+    <div style="background-color: mistyrose; padding: 5px;
+         border-radius: 10px;
+         height: 60%; width: 70%;
+         margin: 100px auto;">
+
+        <div class="instruction">
+            <img src="learning.png" alt="Learning" srcset="" style="max-width:100%;">
+        </div>
+
+        <div class="form-container">
+
+            <h3> Registration Form</h3>
+
+            <form action="" name="SignupForm" id="SignupForm" onsubmit="processForm()">
+                <input type="text" name="fullName" id="fullName" placeholder="Enter your Full Name" required>
+                <input type="email" name="email" id="email" placeholder="Enter your Email Address" required>
+                <input type="text" name="username" id="userName" placeholder="Enter your Username" required>
+                <input type="password" name="password" id="password" placeholder="Enter your Password" required>
+                <input type="password" name="cpassword" id="confirmPassword" placeholder="Enter your Password Again"
+                    required>
+
+                <input type="submit" value="Sign Up" class="submit">
+            </form>
+
+        </div>
+
+        <div style="clear: left;"></div>
+
+        <script>
+            
+            document.getElementById('SignupForm').addEventListener("submit", function (even) {
+                event.preventDefault();
+            })
+
+            // function that submit data to server when submit button is clicked
+            function processForm() {
+                var fullName = document.getElementById('fullName').value
+                email = document.getElementById('email').value
+                username = document.getElementById('userName').value
+                password = document.getElementById('password').value
+                cpassword = document.getElementById('confirmPassword').value
+
+                if (password != cpassword) {
+                    alert('password mismatch')
+                } else {
+
+                    //Format the forma input to JSON object
+                    var data = {
+                        "fullName": fullName,
+                        "email": email,
+                        "userName": username,
+                        "newpassword": password,
+                        "isEnabled": true,
+                        "roles": ["user"]
+                    }
+
+                    fetch('https://api.openclass.ng/Register', {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: {
+                            'Content-Type': 'application/json' //data is sent as JSON object to server
+                        }
+                    }).then(function (data) {
+                        alert('Congrats')
+                    })
+
+                }
+            }
+        </script>
+
+    </div>
+</body>
+
+</html>
